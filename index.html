@@ -72,6 +72,12 @@
     }
     
     function tick(){
+    
+      tickCounter++;
+      
+      if (tickCounter === 1){
+      alert("tick läuft");
+      }
       requestAnimationFrame(tick);
 
       document.getElementById("debug").innerHTML =
