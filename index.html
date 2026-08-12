@@ -13,6 +13,7 @@
     var video, canvas, context, imageData, detector;
   
     function onLoad(){
+      document.getElementById("debug").innerHTML = "onLoad gestartet";
       video = document.getElementById("video");
       canvas = document.getElementById("canvas");
       context = canvas.getContext("2d");
@@ -43,6 +44,7 @@
         .then(function(stream) {
           if ("srcObject" in video) {
             video.srcObject = stream;
+            document.getElementById("debug").innerHTML = "Kamera verbunden";
           } else {
             video.src = window.URL.createObjectURL(stream);
           }
@@ -136,9 +138,11 @@
     <div style="margin: 10px;"><strong>-= Augmented Reality Marker Detector =-</strong></div>
     <video id="video" autoplay="true" style="display:none;"></video>
     <canvas id="canvas" style="width:640px; height:480px;"></canvas>
+    <p id="debug">Seite geladen</p>
     <div style="margin: 15px;"><strong>Powered by <a href="https://damianofalcioni.github.io/js-aruco2/">js-aruco2</a></strong></div>
   </center>
 
+  <p id="debug">Start</p>
 </body>
   
 </html>
