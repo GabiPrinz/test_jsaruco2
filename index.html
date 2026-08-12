@@ -76,6 +76,9 @@
 
     function snapshot(){
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      context.fillStyle = "yellow";
+      context.fillRect(10, 10, 50, 50);
       imageData = context.getImageData(0, 0, canvas.width, canvas.height);
     }
           
