@@ -13,7 +13,7 @@
     var video, canvas, context, imageData, detector;
       
     function onLoad(){
-      document.getElementById("debug").innerHTML = "onLoad gestartet";
+     
       video = document.getElementById("video");
       canvas = document.getElementById("canvas");
       context = canvas.getContext("2d");
@@ -44,7 +44,7 @@
         .then(function(stream) {
           if ("srcObject" in video) {
             video.srcObject = stream;
-            document.getElementById("debug").innerHTML = "Kamera verbunden";
+           
           } else {
             video.src = window.URL.createObjectURL(stream);
           }
