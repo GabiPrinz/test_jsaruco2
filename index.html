@@ -49,10 +49,11 @@
             video.src = window.URL.createObjectURL(stream);
           }
         })
-        .catch(function(err) {
-          console.log(err.name + ": " + err.message);
-        }
-      );
+      .catch(function(err) {
+        document.getElementById("debug").innerHTML =
+          err.name + ": " + err.message;
+      }
+    );
         
       detector = new AR.Detector({
         dictionaryName: 'ARUCO'
