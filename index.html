@@ -59,7 +59,12 @@
         dictionaryName: 'ARUCO'
       });
 
+      document.getElementById("debug").innerHTML =
+        "vor requestAnimationFrame";
+  
       requestAnimationFrame(tick);
+      document.getElementById("debug").innerHTML =
+      "requestAnimationFrame aufgerufen";
     }
     
     function tick(){
