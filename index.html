@@ -11,9 +11,7 @@
  
   <script>
     var video, canvas, context, imageData, detector;
-    alert("Script geladen");
-    var tickCounter = 0;
-  
+      
     function onLoad(){
       document.getElementById("debug").innerHTML = "onLoad gestartet";
       video = document.getElementById("video");
@@ -73,15 +71,8 @@
     
     function tick(){
     
-      tickCounter++;
-      
-      if (tickCounter === 1){
-      alert("tick läuft");
-      }
       requestAnimationFrame(tick);
 
-      document.getElementById("debug").innerHTML =
-            "readyState = " + video.readyState;
       if (video.readyState === video.HAVE_ENOUGH_DATA){
         snapshot();
 
@@ -94,8 +85,6 @@
     function snapshot(){
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      context.fillStyle = "yellow";
-      context.fillRect(10, 10, 50, 50);
       imageData = context.getImageData(0, 0, canvas.width, canvas.height);
     }
           
@@ -161,7 +150,7 @@
     <video id="video" autoplay="true" playsinline style="width:640px; height:480px;"></video>
 
     <canvas id="canvas"
-            style="width:640px; height:480px; border:3px solid red;">
+            style="width:640px; height:480px; 
     </canvas>
 
    
