@@ -54,10 +54,15 @@
           err.name + ": " + err.message;
       }
     );
-        
+
+      alert("vor Detector");
+      
       detector = new AR.Detector({
         dictionaryName: 'ARUCO'
       });
+      alert("nach Detector");
+
+      
       document.getElementById("debug").innerHTML =
          "Detector erzeugt";
 
