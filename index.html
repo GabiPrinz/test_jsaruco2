@@ -179,6 +179,7 @@
    {
      var text = "";
      var attendanceText = "";
+     var missingText = "";
      
      for (var id in responses){
 
@@ -189,11 +190,14 @@
      for (var id in activeCards){
        
        attendanceText += id + "<br>";
-       
+       if (!(id in responses)){
+         missingText += id + "<br>";
+       }
      }
      
      document.getElementById("results").innerHTML = text;
      document.getElementById("attendance").innerHTML = attendanceText;
+     document.getElementById("missing").innerHTML = missingText;
     }
 
     function newQuestion()
@@ -224,6 +228,10 @@
     
     <div id="attendance">
       Noch keine aktiven Karten
+    </div>
+
+    <div id="missing">
+      Keine fehlenden Antworten
     </div>
 
     <button onclick="newQuestion()">
