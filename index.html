@@ -194,13 +194,24 @@
          missingText += id + "<br>";
        }
      }
+
+     if (text === ""){
+       text = "Noch keine Antworten";
+     }
+     if (missingText === ""){
+       missingText = "Keine fehlenden Antworten";
+     }
      
      document.getElementById("results").innerHTML = 
        "<h3>Antworten</h3>" + text;
      document.getElementById("attendance").innerHTML = 
-       "<h3>Aktive Karten</h3>" + attendanceText;
+       "<h3>Aktive Karten (" +
+       Object.keys(activeCards).length +
+       ")</h3>" + attendanceText;
      document.getElementById("missing").innerHTML = 
-       "<h3>Fehlende Antworten</h3>" + missingText;
+       "<h3>Fehlende Antworten (" +
+       missingText.split("<br>").filter(Boolean).length +
+       ")</h3>" + missingText;
     }
 
     function newQuestion()
