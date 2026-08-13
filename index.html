@@ -12,6 +12,7 @@
   <script>
     var video, canvas, context, imageData, detector;
     var responses = {};
+    var activeCards = {};
       
     function onLoad(){
      
@@ -125,6 +126,7 @@
       
       for (i = 0; i !== markers.length; ++ i){
         
+        activeCards[markers[i].id] = true;
         responses[markers[i].id] = getAnswer(markers[i]);
         updateResults();
            
