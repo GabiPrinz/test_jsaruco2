@@ -218,18 +218,12 @@
      
      document.getElementById("results").innerHTML = 
        "<h3>Antworten</h3>" + text;
+     
      document.getElementById("attendance").innerHTML = 
-       "<h3>Aktive Karten (" +
-       Object.keys(cardsToShow).length +
-       ")</h3>" + attendanceText;
+              "<h3>Aktive Karten</h3>" + attendanceText;
      
      document.getElementById("missing").innerHTML = 
-       "<h3>Fehlende Antworten (" +
-       (
-         Object.keys(cardsToShow).length -
-         Object.keys(responses).length
-       ) +
-       ")</h3>" + missingText;
+              "<h3>Fehlende Antworten</h3>" + missingText;
     }
 
     function lockAttendance()
