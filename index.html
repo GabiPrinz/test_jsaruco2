@@ -195,9 +195,12 @@
        }
      }
      
-     document.getElementById("results").innerHTML = text;
-     document.getElementById("attendance").innerHTML = attendanceText;
-     document.getElementById("missing").innerHTML = missingText;
+     document.getElementById("results").innerHTML = 
+       "<h3>Antworten</h3>" + text;
+     document.getElementById("attendance").innerHTML = 
+       "<h3>Aktive Karten</h3>" + attendanceText;
+     document.getElementById("missing").innerHTML = 
+       "<h3>Fehlende Antworten</h3>" + missingText;
     }
 
     function newQuestion()
