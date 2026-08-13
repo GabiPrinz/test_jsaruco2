@@ -11,6 +11,7 @@
  
   <script>
     var video, canvas, context, imageData, detector;
+    var responses = {};
       
     function onLoad(){
      
@@ -123,6 +124,9 @@
       context.lineWidth = 1;
       
       for (i = 0; i !== markers.length; ++ i){
+        
+        responses[markers[i].id] = getAnswer(markers[i]);
+        
         corners = markers[i].corners;
         
         x = Infinity;
