@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Augmented Reality Marker Detector</title>
+
+  <script src="polyfill.js"></script>
+  <script src="cv.js"></script>
+  <script src="aruco.js"></script>
+  
+ 
+  <script>
+    var video, canvas, context, imageData, detector;
+    var responses = {};
+    var activeCards = {};
+    
+    var confirmedCards = {};
+    var attendanceLocked = false;
+      
+    function onLoad(){
+     
+      video = document.getElementById("video");
+      canvas = document.getElementById("canvas");
+      context = canvas.getContext("2d");
+    
+      canvas.width = parseInt(canvas.style.width);
+      canvas.height = parseInt(canvas.style.height);
+      
+      if (navigator.mediaDevices === undefined) {
+        navigator.mediaDevices = {};
+      }
+      
+      if (navigator.mediaDevices.getUserMedia === undefined) {
+        navigator.mediaDevices.getUserMedia = function(constraints) {
+          var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+          
+          if (!getUserMedia) {
+            return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+          }
+
+          return new Promise(function(resolve, reject) {
+            getUserMedia.call(navigator, constraints, resolve, reject);
+          });
+        }
+      }
+      
+      navigator.mediaDevices
+        
+        .getUserMedia({
+           video: {
+             facingMode: "environment"
+           }
+         })
+      
+        .then(function(stream) {
+          if ("srcObject" in video) {
+            video.srcObject = stream;
+           
+          } else {
+            video.src = window.URL.createObjectURL(stream);
+          }
+        })
+      .catch(function(err) {
+       
+          alert(err.name + ": " + err.message);
+      }
+    );
+
+            
+      detector = new AR.Detector({
+        dictionaryName: 'ARUCO'
+      });
+      
+  
+      requestAnimationFrame(tick);
+   
+    }
+    
+    function tick(){
+    
+      requestAnimationFrame(tick);
+     
+      if (video.readyState === video.HAVE_ENOUGH_DATA){
+        snapshot();
+
+        var markers = detector.detect(imageData);
+        drawCorners(markers);
+        drawId(markers);
+      }
+    }
+
+    function snapshot(){
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+   
+      imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    }
+          
+    function drawCorners(markers){
+      var corners, corner, i, j;
+    
+      context.lineWidth = 3;
+
+      for (i = 0; i !== markers.length; ++ i){
+        corners = markers[i].corners;
+        
+        context.strokeStyle = "red";
+        context.beginPath();
+        
+        for (j = 0; j !== corners.length; ++ j){
+          corner = corners[j];
+          context.moveTo(corner.x, corner.y);
+          corner = corners[(j + 1) % corners.length];
+          context.lineTo(corner.x, corner.y);
+        }
+
+        context.stroke();
+        context.closePath();
+        
+        context.strokeStyle = "green";
+        context.strokeRect(corners[0].x - 2, corners[0].y - 2, 4, 4);
+      }
+    }
+
+    function drawId(markers){
+      var corners, corner, x, y, i, j;
+      
+      context.strokeStyle = "blue";
+      context.lineWidth = 1;
+      
+      for (i = 0; i !== markers.length; ++ i){
+        
+        activeCards[markers[i].id] = true;
+        
+         if (!attendanceLocked || confirmedCards[markers[i].id]){
+           responses[markers[i].id] = getAnswer(markers[i]);
+         }
+           
+        updateResults();
+           
+        corners = markers[i].corners;
+        
+        x = Infinity;
+        y = Infinity;
+        
+        for (j = 0; j !== corners.length; ++ j){
+          corner = corners[j];
+          
+          x = Math.min(x, corner.x);
+          y = Math.min(y, corner.y);
+        }
+
+        context.strokeText(
+         markers[i].id + " : " + getAnswer(markers[i]),
+         x,
+         y
+       );
+      }
+    }
+    function getAnswer(marker){
+        var corners = marker.corners;
+        var topIndex = 0;
+        var topY = corners[0].y;
+       for (var i = 1; i < 4; i++){
+         if (corners[i].y < topY){
+         topY = corners[i].y;
+        topIndex = i;
+      }
+    }
+     switch(topIndex){
+     case 0:
+       return "A";
+     case 1:
+      return "B";
+     case 2:
+      return "C";
+     case 3:
+      return "D";
+     }
+
+   return "?";
+    }
+
+
+    
+   function updateResults()
+   {
+     var text = "";
+     var attendanceText = "";
+     var missingText = "";
+     
+     for (var id in responses){
+
+       text += id + " = " + responses[id] + "<br>";
+        
+     }
+
+
+     var cardsToShow = attendanceLocked
+         ? confirmedCards
+         : activeCards;
+ 
+    for (var id in cardsToShow){
+
+        attendanceText += id + "<br>";
+
+        if (!(id in responses)){
+          missingText += id + "<br>";
+        }
+}
+    
+
+     if (text === ""){
+       text = "Noch keine Antworten";
+     }
+     if (missingText === ""){
+       missingText = "Keine fehlenden Antworten";
+     }
+     
+     document.getElementById("results").innerHTML = 
+       "<h3>Antworten</h3>" + text;
+     
+     document.getElementById("attendance").innerHTML = 
+              "<h3>Aktive Karten</h3>" + attendanceText;
+     
+     document.getElementById("missing").innerHTML = 
+              "<h3>Fehlende Antworten</h3>" + missingText;
+    }
+
+    function lockAttendance()
+    {
+      confirmedCards = {...activeCards};
+      attendanceLocked = true;
+    }
+      
+    function newQuestion()
+    {
+      responses = {};
+      updateResults();
+    }
+    
+    window.onload = onLoad;
+  </script>
+
+</head>
+
+<body style="font-family: monospace;">
+
+  <center>
+    <div style="margin: 10px;"><strong>-= Augmented Reality Marker Detector =-</strong></div>
+    
+    <video id="video" autoplay="true" playsinline style="width:640px; height:480px;"></video>
+
+    <canvas id="canvas"
+            style="width:640px; height:480px;">
+    </canvas>
+    
+    <div id="results">
+      Noch keine Antworten
+    </div>
+    
+    <div id="attendance">
+      Noch keine aktiven Karten
+    </div>
+
+    <div id="missing">
+      Keine fehlenden Antworten
+    </div>
+
+    <button onclick="lockAttendance()">
+      Anwesenheit abschließen
+    </button>
+    
+    <button onclick="newQuestion()">
+      Neue Frage
+    </button>
+      
+    <div style="margin: 15px;"><strong>Powered by <a href="https://damianofalcioni.github.io/js-aruco2/">js-aruco2</a></strong></div>
+  </center>
+
+</body>
+  
+</html>
