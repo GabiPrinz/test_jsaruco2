@@ -126,6 +126,7 @@
       for (i = 0; i !== markers.length; ++ i){
         
         responses[markers[i].id] = getAnswer(markers[i]);
+        updateResults();
            
         corners = markers[i].corners;
         
@@ -172,6 +173,20 @@
 
 
     
+   function updateResults()
+   {
+     var text = "";
+     
+     for (var id in responses){
+
+       text += id;
+       
+     }
+     document.getElementById("results").innerHTML = text;
+    }
+
+
+    
     window.onload = onLoad;
   </script>
 
@@ -187,8 +202,9 @@
     <canvas id="canvas"
             style="width:640px; height:480px;">
     </canvas>
-
-   
+    <div id="results">
+      Noch keine Antworten
+    </div>
     
     <div style="margin: 15px;"><strong>Powered by <a href="https://damianofalcioni.github.io/js-aruco2/">js-aruco2</a></strong></div>
   </center>
