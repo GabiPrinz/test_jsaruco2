@@ -193,14 +193,21 @@
        text += id + " = " + responses[id] + "<br>";
         
      }
-     
-     for (var id in activeCards){
-       
-       attendanceText += id + "<br>";
-       if (!(id in responses)){
-         missingText += id + "<br>";
-       }
-     }
+
+
+     var cardsToShow = attendanceLocked
+         ? confirmedCards
+         : activeCards;
+ 
+    for (var id in cardsToShow){
+
+        attendanceText += id + "<br>";
+
+        if (!(id in responses)){
+          missingText += id + "<br>";
+        }
+}
+    
 
      if (text === ""){
        text = "Noch keine Antworten";
