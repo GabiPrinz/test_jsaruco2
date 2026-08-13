@@ -135,10 +135,39 @@
           y = Math.min(y, corner.y);
         }
 
-        context.strokeText(markers[i].id, x, y)
+        context.strokeText(
+         markers[i].id + " : " + getAnswer(markers[i]),
+         x,
+         y
+       );
       }
     }
+    function getAnswer(marker){
+        var corners = marker.corners;
+        var topIndex = 0;
+        var topY = corners[0].y;
+       for (var i = 1; i < 4; i++){
+         if (corners[i].y < topY){
+         topY = corners[i].y;
+        topIndex = i;
+      }
+    }
+     switch(topIndex){
+     case 0:
+       return "A";
+     case 1:
+      return "B";
+     case 2:
+      return "C";
+     case 3:
+      return "D";
+     }
 
+   return "?";
+    }
+
+
+    
     window.onload = onLoad;
   </script>
 
