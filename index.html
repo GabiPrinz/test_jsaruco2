@@ -13,6 +13,9 @@
     var video, canvas, context, imageData, detector;
     var responses = {};
     var activeCards = {};
+    
+    var confirmedCards = {};
+    var attendanceLocked = false;
       
     function onLoad(){
      
@@ -127,7 +130,11 @@
       for (i = 0; i !== markers.length; ++ i){
         
         activeCards[markers[i].id] = true;
-        responses[markers[i].id] = getAnswer(markers[i]);
+        
+         if (!attendanceLocked || confirmedCards[markers[i].id]){
+           responses[markers[i].id] = getAnswer(markers[i]);
+         }
+           
         updateResults();
            
         corners = markers[i].corners;
@@ -214,6 +221,12 @@
        ")</h3>" + missingText;
     }
 
+    function lockAttendance()
+    {
+      confirmedCards = {...activeCards};
+      attendanceLocked = true;
+    }
+      
     function newQuestion()
     {
       responses = {};
@@ -248,6 +261,10 @@
       Keine fehlenden Antworten
     </div>
 
+    <button onclick="lockAttendance()">
+      Anwesenheit abschließen
+    </button>
+    
     <button onclick="newQuestion()">
       Neue Frage
     </button>
