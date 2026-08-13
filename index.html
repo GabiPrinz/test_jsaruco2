@@ -215,9 +215,13 @@
        "<h3>Aktive Karten (" +
        Object.keys(activeCards).length +
        ")</h3>" + attendanceText;
+     
      document.getElementById("missing").innerHTML = 
        "<h3>Fehlende Antworten (" +
-       missingText.split("<br>").filter(Boolean).length +
+       (
+         Object.keys(activeCards).length -
+         Object.keys(responses).length
+       ) +
        ")</h3>" + missingText;
     }
 
