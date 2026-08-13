@@ -220,13 +220,13 @@
        "<h3>Antworten</h3>" + text;
      document.getElementById("attendance").innerHTML = 
        "<h3>Aktive Karten (" +
-       Object.keys(activeCards).length +
+       Object.keys(cardsToShow).length +
        ")</h3>" + attendanceText;
      
      document.getElementById("missing").innerHTML = 
        "<h3>Fehlende Antworten (" +
        (
-         Object.keys(activeCards).length -
+         Object.keys(cardsToShow).length -
          Object.keys(responses).length
        ) +
        ")</h3>" + missingText;
