@@ -230,6 +230,8 @@
     {
       confirmedCards = {...activeCards};
       attendanceLocked = true;
+      document.getElementById("lockButton").style.display = "none";
+      document.getElementById("questionButton").style.display = "inline";
     }
       
     function newQuestion()
@@ -266,14 +268,16 @@
       Keine fehlenden Antworten
     </div>
 
-    <button onclick="lockAttendance()">
-      Anwesenheit abschließen
+    <button id="lockButton" onclick="lockAttendance()">
+       Anwesenheit abschließen
     </button>
-    
-    <button onclick="newQuestion()">
+  
+    <button id="questionButton" 
+           onclick="newQuestion()"
+           style="display:none;">
       Neue Frage
     </button>
-      
+    
     <div style="margin: 15px;"><strong>Powered by <a href="https://damianofalcioni.github.io/js-aruco2/">js-aruco2</a></strong></div>
   </center>
 
