@@ -156,6 +156,7 @@
        );
       }
     }
+  
     function getAnswer(marker){
         var corners = marker.corners;
         var topIndex = 0;
@@ -247,7 +248,33 @@
 
     function applyAttendanceChanges()
     {
+      var changes =
+          document.getElementById("attendanceChanges").value;
+      var matches =
+          changes.match(/[+-]\d+/g);
+      if (!matches){
+           return;
+       }
+      for (var i = 0; i < matches.length; i++){
+          var item = matches[i];
+          var number = 
+            parseInt(item.substring(1));
+
+      if (item.startsWith("+")){
+         activeCards[number] = true;
+       }
+       if (item.startsWith("-")){
+          delete activeCards[number];
+          delete confirmedCards[number];
+          delete responses[number];
+       }
+      }
+      document.getElementById(
+          "attendanceChanges"
+      ).value = "";
+      updateResults();
     }
+
     
     function newQuestion()
     {
