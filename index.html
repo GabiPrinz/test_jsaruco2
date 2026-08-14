@@ -232,8 +232,23 @@
       attendanceLocked = true;
       document.getElementById("lockButton").style.display = "none";
       document.getElementById("questionButton").style.display = "inline";
+      document.getElementById("editButton").style.display = "inline";
+      document.getElementById("attendanceEditor").style.display = "none";
     }
-      
+
+    function editAttendance()
+    {
+      attendanceLocked = false;
+      document.getElementById("lockButton").style.display = "inline";
+      document.getElementById("questionButton").style.display = "none";
+      document.getElementById("editButton").style.display = "none";
+      document.getElementById("attendanceEditor").style.display = "block";
+    }
+
+    function applyAttendanceChanges()
+    {
+    }
+    
     function newQuestion()
     {
       responses = {};
@@ -271,12 +286,30 @@
     <button id="lockButton" onclick="lockAttendance()">
        Anwesenheit abschließen
     </button>
-  
+
+    <button id="editButton"
+         onclick="editAttendance()"
+         style="display:none;">
+       Anwesenheit ändern
+    </button>
+    
     <button id="questionButton" 
            onclick="newQuestion()"
            style="display:none;">
       Neue Frage
     </button>
+
+    <div id="attendanceEditor" style="display:none;">
+      <p>
+         Änderungen der Anwesenheit:
+      </p>
+      <input id="attendanceChanges"
+        type="text"
+        placeholder="+17 -18 -94">
+      <button onclick="applyAttendanceChanges()">
+         Übernehmen
+    </button>
+    </div>
     
     <div style="margin: 15px;"><strong>Powered by <a href="https://damianofalcioni.github.io/js-aruco2/">js-aruco2</a></strong></div>
   </center>
