@@ -217,14 +217,24 @@
        missingText = "Keine fehlenden Antworten";
      }
      
-     document.getElementById("results").innerHTML = 
-       "<h3>Antworten</h3>" + text;
+     if (attendanceLocked){
+          document.getElementById("results").innerHTML =
+               "<h3>Antworten</h3>" + text;
+       }
+       else{
+          document.getElementById("results").innerHTML = "";
+         }
      
      document.getElementById("attendance").innerHTML = 
               "<h3>Aktive Karten</h3>" + attendanceText;
      
-     document.getElementById("missing").innerHTML = 
-              "<h3>Fehlende Antworten</h3>" + missingText;
+     if (attendanceLocked){
+          document.getElementById("missing").innerHTML =
+            "<h3>Fehlende Antworten</h3>" + missingText;
+       }
+       else{
+          document.getElementById("missing").innerHTML = "";
+        }
     }
 
     function lockAttendance()
