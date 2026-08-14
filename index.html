@@ -188,11 +188,16 @@
      var text = "";
      var attendanceText = "";
      var missingText = "";
+     var counts = {
+       A: 0,
+       B: 0,
+       C: 0,
+       D: 0
+     };
      
      for (var id in responses){
-
        text += id + " = " + responses[id] + "<br>";
-        
+       counts[responses[id]]++;
      }
 
 
@@ -216,10 +221,17 @@
      if (missingText === ""){
        missingText = "Keine fehlenden Antworten";
      }
+     var summaryText =
+       "A: " + counts.A + "<br>" +
+       "B: " + counts.B + "<br>" +
+       "C: " + counts.C + "<br>" +
+       "D: " + counts.D;
      
      if (attendanceLocked){
           document.getElementById("results").innerHTML =
-               "<h3>Antworten</h3>" + text;
+               "<h3>Antworten</h3>" + text +
+            "<br><br><h3>Verteilung</h3>" +
+            summaryText;
        }
        else{
           document.getElementById("results").innerHTML = "";
