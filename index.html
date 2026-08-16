@@ -301,7 +301,9 @@
     function newQuestion()
     {
       responses = {};
+      showAttendanceEditor = false;
       updateResults();
+      updateButtons();
     }
     
     window.onload = onLoad;
